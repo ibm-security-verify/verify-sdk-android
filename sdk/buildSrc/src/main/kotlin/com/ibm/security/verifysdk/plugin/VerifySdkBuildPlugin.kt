@@ -34,7 +34,7 @@ class VerifySdkBuildPlugin : Plugin<Project> {
                     versionName = "3.0.1"
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                     manifestPlaceholders["auth_redirect_scheme"] = "https"
-                    manifestPlaceholders["auth_redirect_host"] = "chageman.dev.verify.ibmcloudsecurity.com"
+                    manifestPlaceholders["auth_redirect_host"] = "sdk.verify.ibm.com"
                     manifestPlaceholders["auth_redirect_path"] = "/callback"
                 }
 

@@ -30,8 +30,8 @@ import java.util.logging.LogManager
 class MainActivity : AppCompatActivity() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
-    private val clientId = "c5cf302c-ffe8-49b2-a7ef-2c14a133acd6"
-    private val host = "chageman.dev.verify.ibmcloudsecurity.com"
+    private val clientId = "bcc767c7-9a18-4059-9949-7f1f23a76779"
+    private val host = "sdk.verify.ibm.com"
     private val issuer = "https://$host/v1.0/endpoint/default/authorize"
     private val redirect = "https://$host/callback"
     private val tokenEndpoint = "https://$host/v1.0/endpoint/default/token"
