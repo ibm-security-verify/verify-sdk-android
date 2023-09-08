@@ -26,16 +26,16 @@ class VerifySdkBuildPlugin : Plugin<Project> {
         val androidExtension = project.extensions.getByName("android")
         if (androidExtension is BaseExtension) {
             androidExtension.apply {
-                compileSdkVersion(33)
+                compileSdkVersion(34)
                 defaultConfig {
                     targetSdk = 30
                     minSdk = 26
                     versionCode = 101
                     versionName = "3.0.1"
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                    manifestPlaceholders["auth_redirect_scheme"] = "verifysdk"
-                    manifestPlaceholders["auth_redirect_host"] = "callback"
-                    manifestPlaceholders["auth_redirect_path"] = ""
+                    manifestPlaceholders["auth_redirect_scheme"] = "https"
+                    manifestPlaceholders["auth_redirect_host"] = "chageman.dev.verify.ibmcloudsecurity.com"
+                    manifestPlaceholders["auth_redirect_path"] = "/callback"
                 }
 
                 packagingOptions {
@@ -123,7 +123,7 @@ class VerifySdkBuildPlugin : Plugin<Project> {
             add("implementation", "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             add("implementation", "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
             add("implementation", "org.slf4j:slf4j-api:2.0.7")
-            add("implementation", "androidx.browser:browser:1.5.0")
+            add("implementation", "androidx.browser:browser:1.6.0")
 
             add("testImplementation", "junit:junit:4.12") // JUnit4 for Adaptive SDK
 //            add("testImplementation", "org.json:json:20220320")             // Using json in unit tests

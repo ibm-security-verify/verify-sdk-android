@@ -36,7 +36,7 @@ import kotlin.coroutines.resume
  * @since 3.0.0
  */
 @Suppress("unused")
-class OAuthProvider(val clientId: String, val clientSecret: String?) {
+class OAuthProvider(val clientId: String, val clientSecret: String? = null) {
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
@@ -100,11 +100,11 @@ class OAuthProvider(val clientId: String, val clientSecret: String?) {
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun authorizeWithBrowser(
         url: URL,
-        redirectUrl: String,
+        redirectUrl: String? = null,
         codeChallenge: String?,
         method: CodeChallengeMethod = CodeChallengeMethod.PLAIN,
-        scope: Array<String>?,
-        state: String?,
+        scope: Array<String>? = null,
+        state: String? = null,
         activity: AppCompatActivity
     ): Result<String> {
 
@@ -193,10 +193,10 @@ class OAuthProvider(val clientId: String, val clientSecret: String?) {
      */
     suspend fun authorize(
         url: URL,
-        redirectUrl: URL,
+        redirectUrl: String? = null,
         authorizationCode: String,
         codeVerifier: String?,
-        scope: Array<String>?
+        scope: Array<String>? = null
     ): Result<TokenInfo> {
         return try {
 
@@ -210,7 +210,7 @@ class OAuthProvider(val clientId: String, val clientSecret: String?) {
                     codeVerifier ?: "",
                     "authorization_code",
                     scope?.joinToString(" ") ?: "",
-                    redirectUrl.toString(),
+                    redirectUrl ?: "",
                     additionalParameters
                 )
             )
