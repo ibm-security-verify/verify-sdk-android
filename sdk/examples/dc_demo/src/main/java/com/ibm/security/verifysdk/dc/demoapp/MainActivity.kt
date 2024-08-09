@@ -22,17 +22,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.google.zxing.client.android.BuildConfig
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.ibm.security.verifysdk.authentication.OAuthProvider
 import com.ibm.security.verifysdk.core.helper.ContextHelper
 import com.ibm.security.verifysdk.core.helper.NetworkHelper
 import com.ibm.security.verifysdk.dc.QrCode
+import com.ibm.security.verifysdk.dc.api.InvitationsApi
 import com.ibm.security.verifysdk.dc.demoapp.ui.theme.IBMSecurityVerifySDKTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -48,6 +49,9 @@ class MainActivity : ComponentActivity() {
         ignoreUnknownKeys = true
     }
 
+    private val host =
+        "isvavc-default.isvavc-d7ed96fc9dc6db24d2d0bc7a632ccf66-0000.au-syd.containers.appdomain.cloud"
+    private val hostUrl = URL("https://$host")
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -146,6 +150,7 @@ class MainActivity : ComponentActivity() {
         integrator.initiateScan()
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -169,10 +174,21 @@ class MainActivity : ComponentActivity() {
                             username = qrCode.data?.name ?: "",
                             password = "secret"
                         ).onSuccess {
-                                log.info(it.toString())
-                            }.onFailure {
-                                log.error(it.message)
-                            }
+                            log.info(it.toString())
+
+                            InvitationsApi(hostUrl).getAll(
+                                NetworkHelper.getInstance,
+                                accessToken = it.accessToken
+                            )
+                                .onSuccess { invitationList ->
+                                    log.info(invitationList.toString())
+                                }
+                                .onFailure { throwable ->
+                                    log.error(throwable.message)
+                                }
+                        }.onFailure {
+                            log.error(it.message)
+                        }
                     }
                 }
             }
