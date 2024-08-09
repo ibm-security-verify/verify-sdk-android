@@ -4,8 +4,10 @@
 
 package com.ibm.security.verifysdk.dc
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 
+@ExperimentalSerializationApi
 @Serializable
 data class QrCode(
     var type : String? = null,

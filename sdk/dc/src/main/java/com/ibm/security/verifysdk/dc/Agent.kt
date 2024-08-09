@@ -1,5 +1,5 @@
 /*
- *  Copyright contributors to the IBM Security Verify DI SDK for Android project
+ *  Copyright contributors to the IBM Security Verify DC SDK for Android project
  */
 package com.ibm.security.verifysdk.dc
 
